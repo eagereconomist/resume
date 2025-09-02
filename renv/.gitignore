@@ -5,3 +5,11 @@ lock/
 python/
 sandbox/
 staging/
+data/
+output/
+*.pdf
+*.html
+.Rproj.user/
+.Rhistory
+.RData
+renv/library/
