@@ -1,0 +1,106 @@
+---
+name: Eric
+surname: Miller
+# address: ""
+phone: "714-812-0003"
+email: "ericmiller@callutheran.edu"
+linkedin: "https://www.linkedin.com/in/eric-miller-20a162224/"
+aboutme: "Detail-oriented data analyst with a strong background in economics and quantitative analysis. Proficient in Python, R, SQL, with experience in time-series econometrics and forecasting."
+headcolor: "000000"
+docname: Resume
+fontsize: 10pt
+
+output:
+  pagedown::html_paged:
+    toc: false
+    css: []
+
+params:
+  role: "data_analyst"
+  show_academic: false
+  max_bullets: 3
+---
+
+```{r}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+source("data/shared.R", local = TRUE)
+
+role_file <- file.path("data", "roles", paste0(params$role, ".R"))
+if (!file.exists(role_file)) stop("Missing role file: ", role_file)
+source(role_file, local = TRUE)
+
+SHOW_ACADEMIC <- isTRUE(params$show_academic)
+MAX_BULLETS <- params$max_bullets %||% 3
+```
+
+```{r}
+# About Me 
+if (!is.null(rmarkdown::metadata$aboutme)){
+    cat(rmarkdown::metadata$aboutme)
+}
+```
+
+```{r}
+# Experience 
+professional_experience |>
+vitae::detailed_entries(
+    with = title,
+    what = unit,
+    why = detail,
+    when = glue::glue("{startMonth} {startYear} - {endMonth} {endYear}", .na = ""),
+    where = where
+)
+```
+
+```{r}
+# Skills
+skills_to_render <- if (exists("role_data") && !is.null(role_data$skills_tbl)) {
+    role_data$skills_tbl
+}   else {
+    skills
+}
+
+skills_to_render |>
+    vitae::detailed_entries(
+        with = area,
+        what = skills
+    )
+```
+
+```{r}
+# Projects
+projects |>
+    vitae::detailed_entries(
+        with = area,
+        what = accomplishment,
+        why = detail,
+        when = glue::glue("{endMonth} {year}", .na = ""),
+        where = where
+    )
+```
+
+```{r}
+# Certifications
+certifications |>
+    vitae::detailed_entries(
+        with = area,
+        what = accomplishment,
+        why = detail,
+        when = glue::glue("{endMonth} {year}")
+    )
+```
+
+```{r}
+# Education
+if (SHOW_ACADEMIC) {
+    education |>
+        vitae::detailed_entries(
+            with = inst,
+            what = degree,
+            why = detail,
+            when = glue::glue("{startMonth} {startYear} - {endMonth} {endYear}", .na = ""),
+            where = where
+        )
+}
+```
