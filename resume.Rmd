@@ -1,106 +1,95 @@
 ---
 name: Eric
 surname: Miller
-# address: ""
 phone: "714-812-0003"
 email: "ericmiller@callutheran.edu"
 linkedin: "https://www.linkedin.com/in/eric-miller-20a162224/"
 aboutme: "Detail-oriented data analyst with a strong background in economics and quantitative analysis. Proficient in Python, R, SQL, with experience in time-series econometrics and forecasting."
-headcolor: "000000"
-docname: Resume
-fontsize: 10pt
-
+fontsize: 8pt
 output:
   pagedown::html_paged:
     toc: false
-    css: []
-
+    css: ["compact.css"]
 params:
   role: "data_analyst"
   show_academic: false
   max_bullets: 3
 ---
 
-```{r}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
-
+`%||%` <- function(x, y) if (!is.null(x)) x else y
 source("data/shared.R", local = TRUE)
-
 role_file <- file.path("data", "roles", paste0(params$role, ".R"))
 if (!file.exists(role_file)) stop("Missing role file: ", role_file)
 source(role_file, local = TRUE)
-
 SHOW_ACADEMIC <- isTRUE(params$show_academic)
 MAX_BULLETS <- params$max_bullets %||% 3
 ```
 
-```{r}
-# About Me 
-if (!is.null(rmarkdown::metadata$aboutme)){
-    cat(rmarkdown::metadata$aboutme)
+```{r, results='asis'}
+cat(glue::glue("**{rmarkdown::metadata$name} {rmarkdown::metadata$surname}**  
+{rmarkdown::metadata$phone} | {rmarkdown::metadata$email} | [LinkedIn]({rmarkdown::metadata$linkedin})  
+
+"))
+```
+
+**About Me**  
+```{r, results='asis'}
+cat(glue::glue("{rmarkdown::metadata$aboutme}\n\n"))
+```
+
+**Experience**  
+```{r, results='asis'}
+entries <- if (!is.null(role_data$experience_override)) role_data$experience_override else professional_experience
+for (i in seq_len(nrow(entries))) {
+  e <- entries[i, ]
+  glue::glue("**{e$title}** - {e$unit}, {e$where} (*{e$startMonth} {e$startYear} - {e$endMonth} {e$endYear}*)  
+- {e$detail}\n") |> cat("\n")
 }
 ```
 
-```{r}
-# Experience 
-professional_experience |>
-vitae::detailed_entries(
-    with = title,
-    what = unit,
-    why = detail,
-    when = glue::glue("{startMonth} {startYear} - {endMonth} {endYear}", .na = ""),
-    where = where
-)
-```
-
-```{r}
-# Skills
-skills_to_render <- if (exists("role_data") && !is.null(role_data$skills_tbl)) {
-    role_data$skills_tbl
-}   else {
-    skills
+**Skills**  
+```{r, results='asis'}
+skills_tbl <- if (!is.null(role_data$skills_tbl)) role_data$skills_tbl else skills
+for (i in seq_len(nrow(skills_tbl))) {
+  s <- skills_tbl[i, ]
+  glue::glue("**{s$area}:** {s$skills}\n") |> cat("\n")
 }
-
-skills_to_render |>
-    vitae::detailed_entries(
-        with = area,
-        what = skills
-    )
 ```
 
-```{r}
-# Projects
-projects |>
-    vitae::detailed_entries(
-        with = area,
-        what = accomplishment,
-        why = detail,
-        when = glue::glue("{endMonth} {year}", .na = ""),
-        where = where
-    )
+**Projects**  
+```{r, results='asis'}
+if (exists("projects") && is.data.frame(projects)) {
+  for (i in seq_len(nrow(projects))) {
+    p <- projects[i, ]
+    title <- p$title %||% p$area
+    when <- p$when %||% paste(p$endMonth, p$year)
+    detail <- p$detail %||% p$accomplishment
+    glue::glue("- **{title}** (*{when}*): {detail}") |> cat("\n")
+  }
+}
 ```
 
-```{r}
-# Certifications
-certifications |>
-    vitae::detailed_entries(
-        with = area,
-        what = accomplishment,
-        why = detail,
-        when = glue::glue("{endMonth} {year}")
-    )
+**Certifications**  
+```{r, results='asis'}
+if (exists("certifications") && is.data.frame(certifications)) {
+  for (i in seq_len(nrow(certifications))) {
+    c <- certifications[i, ]
+    title <- c$title %||% c$area
+    org <- c$org %||% c$where
+    date <- c$date %||% paste(c$endMonth, c$year)
+    id <- c$credential %||% c$detail
+    glue::glue("- {title}, {org} (*{date}*){if (!is.na(id)) paste0(' — ', id) else ''}") |> cat("\n")
+  }
+}
 ```
 
-```{r}
-# Education
-if (SHOW_ACADEMIC) {
-    education |>
-        vitae::detailed_entries(
-            with = inst,
-            what = degree,
-            why = detail,
-            when = glue::glue("{startMonth} {startYear} - {endMonth} {endYear}", .na = ""),
-            where = where
-        )
+**Education**  
+```{r, results='asis'}
+for (i in seq_len(nrow(education))) {
+  e <- education[i, ]
+  glue::glue("- **{e$degree}**, {e$inst} (*{e$startMonth} {e$startYear} - {e$endMonth} {e$endYear}*)  
+{if (!is.na(e$detail)) paste0('- ', e$detail) else ''}\n") |> cat("\n")
 }
 ```
