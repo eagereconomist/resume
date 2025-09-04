@@ -118,7 +118,8 @@ body > h1:first-of-type {
 .edu-header {
   display: flex;
   justify-content: space-between;
-  margin-top: 6pt;
+  margin-top: 1pt;
+  margin-bottom: 0pt;
   font-weight: bold;
 }
 
@@ -132,22 +133,24 @@ body > h1:first-of-type {
   white-space: nowrap;
   font-style: italic;
   padding-left: 1em;
+  font-weight: bold;
 }
 
 .edu-inst {
-  margin-top: 0pt;
+  margin-top: 1pt;
+  margin-bottom: 0pt;
   font-style: normal;
   font-weight: normal;
 }
 
 .edu-bullets {
   margin-top: 0pt;
-  margin-bottom: 6pt;
+  margin-bottom: 2pt;
   padding-left: 1.1em;
 }
 
 .edu-bullets li {
-  margin-bottom: 3pt;
+  margin-bottom: 1pt;
 }
 
 .cert-title {
