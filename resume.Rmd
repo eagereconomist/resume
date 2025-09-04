@@ -125,15 +125,32 @@ if (exists("projects") && is.data.frame(projects)) {
 ```
 
 **Certifications**  
+
+**Education**  
 ```{r, results='asis'}
-if (exists("certifications") && is.data.frame(certifications)) {
-  for (i in seq_len(nrow(certifications))) {
-    c <- certifications[i, ]
-    title <- c$title %||% c$area
-    org <- c$org %||% c$where
-    date <- c$date %||% paste(c$endMonth, c$year)
-    id <- c$credential %||% c$detail
-    glue::glue("- {title}, {org} (*{date}*){if (!is.na(id)) paste0(' — ', id) else ''}") |> cat("\n")
+if (exists("education") && is.data.frame(education)) {
+  for (i in seq_len(nrow(education))) {
+    e <- education[i, ]
+
+    # Degree + dates line
+    cat(glue::glue(
+      '<div class="edu-header">
+         <div class="edu-degree">{e$degree}</div>
+         <div class="edu-dates">{e$startMonth} {e$startYear} - {e$endMonth} {e$endYear}</div>
+       </div>\n'
+    ))
+
+    # Institution line
+    cat(glue::glue('<div class="edu-inst">{e$inst}</div>\n'))
+
+    # Optional bullet (minor, thesis, etc.)
+    if (!is.na(e$detail) && nzchar(e$detail)) {
+      cat("<ul class='edu-bullets'>\n")
+      cat(glue::glue("<li>{e$detail}</li>\n"))
+      cat("</ul>\n")
+    }
+
+    cat("<br>\n")  # spacing between entries
   }
 }
 ```
