@@ -33,3 +33,13 @@ ul {
 p {
   margin: 0 0 6pt;
 }
+
+/* Top header spacing fix */
+body > h1:first-of-type {
+  margin-top: 0;
+}
+
+body > h1:first-of-type {
+  margin-top: 0;
+}
+
