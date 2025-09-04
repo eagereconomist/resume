@@ -11,18 +11,18 @@ a {
 
 body {
   font-family: sans-serif;
-  font-size: 11pt;
+  font-size: 9pt;
   line-height: 1.15;
-  color: #111;
+  color: #101;
 }
 
 h1, h2, h3 {
-  font-size: 11pt;
+  font-size: 9pt;
   font-weight: bold;
   color: #333;
   border-bottom: 1px solid #ccc;
   padding-bottom: 2pt;
-  margin: 10pt 0 6pt;
+  margin: 9pt 0 6pt;
 }
 
 ul {
@@ -115,3 +115,37 @@ body > h1:first-of-type {
   margin-bottom: 3pt;
 }
 
+.edu-header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6pt;
+  font-weight: bold;
+}
+
+.edu-degree {
+  text-align: left;
+  flex: 1;
+}
+
+.edu-dates {
+  text-align: right;
+  white-space: nowrap;
+  font-style: italic;
+  padding-left: 1em;
+}
+
+.edu-inst {
+  margin-top: 0pt;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.edu-bullets {
+  margin-top: 0pt;
+  margin-bottom: 6pt;
+  padding-left: 1.1em;
+}
+
+.edu-bullets li {
+  margin-bottom: 3pt;
+}
