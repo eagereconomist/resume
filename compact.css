@@ -149,3 +149,39 @@ body > h1:first-of-type {
 .edu-bullets li {
   margin-bottom: 3pt;
 }
+
+.cert-title {
+  font-weight: bold;
+  margin-top: 6pt;
+  margin-bottom: 0pt;
+}
+
+.cert-meta-line {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2pt;
+  margin-bottom: 2pt;
+}
+
+.cert-org {
+  text-align: left;
+  flex: 1;
+}
+
+.cert-date {
+  text-align: right;
+  white-space: nowrap;
+  font-style: italic;
+  font-weight: bold;
+  padding-left: 1em;
+}
+
+.cert-bullets {
+  margin-top: 0pt;
+  margin-bottom: 6pt;
+  padding-left: 1.1em;
+}
+
+.cert-bullets li {
+  margin-bottom: 3pt;
+}
