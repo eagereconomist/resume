@@ -125,6 +125,41 @@ if (exists("projects") && is.data.frame(projects)) {
 ```
 
 **Certifications**  
+```{r, results='asis'}
+if (exists("certifications") && is.data.frame(certifications)) {
+  for (i in seq_len(nrow(certifications))) {
+    c <- certifications[i, ]
+
+    title <- c$area %||% "Untitled Certification"
+    org <- c$accomplishment %||% "Unknown Issuer"
+    date <- paste(c$endMonth %||% "", c$year %||% "")
+    id <- c$detail
+
+    # Don't double up Credential ID prefix
+    if (!is.na(id) && nzchar(id) && !grepl("^Credential ID", id)) {
+      id <- paste("Credential ID:", id)
+    }
+
+    # Title on its own line
+    cat(glue::glue("<div class='cert-title'>{title}</div>\n"))
+
+    # Org + Date (flex aligned)
+    cat(glue::glue(
+      '<div class="cert-meta-line">
+         <div class="cert-org">{org}</div>
+         <div class="cert-date">{date}</div>
+       </div>\n'
+    ))
+
+    # Optional credential ID
+    if (!is.na(id) && nzchar(id)) {
+      cat(glue::glue("<ul class='cert-bullets'><li>{id}</li></ul>\n"))
+    }
+
+    cat("<br>\n")
+  }
+}
+```
 
 **Education**  
 ```{r, results='asis'}
