@@ -1,5 +1,8 @@
 --- 
 name: "Eric Miller"
+aboutme: "Detail-oriented data analyst with a strong background in economics and quantitative analysis.
+         Proficient in Python, R, SQL, EViews, and JMP Pro, with proven expertise in time-series econometrics and forecasting methods. 
+         Adept at identifying strategic opportunities to enhance company margins and maximize profitability through comprehensive, data-driven analysis."
 output:
   pagedown::html_paged:
     css: compact.css
@@ -20,7 +23,8 @@ params:
   <p class="contact-info">
     <a href="mailto:ericmiller@callutheran.edu">email</a>&nbsp;|&nbsp;
     <a href="tel:+17148120003">+1 (714) 812-0003</a>&nbsp;|&nbsp;
-    <a href="https://www.linkedin.com/in/eric-miller-20a162224/">LinkedIn</a>
+    <a href="https://www.linkedin.com/in/eric-miller-20a162224/">LinkedIn</a>&nbsp;|&nbsp;
+    <a href="https://github.com/eagereconomist">GitHub</a>
   </p>
 </div>
 
@@ -37,8 +41,7 @@ MAX_BULLETS <- params$max_bullets %||% 3
 
 ```{r, results='asis'}
 cat(glue::glue("**{rmarkdown::metadata$name} {rmarkdown::metadata$surname}**  
-{rmarkdown::metadata$phone} | {rmarkdown::metadata$email} | [LinkedIn]({rmarkdown::metadata$linkedin})  
-
+{rmarkdown::metadata$phone} | {rmarkdown::metadata$email} | [LinkedIn]({rmarkdown::metadata$linkedin} | {rmarkdown::metadata$github})  
 "))
 ```
 
@@ -50,10 +53,37 @@ cat(glue::glue("{rmarkdown::metadata$aboutme}\n\n"))
 **Experience**  
 ```{r, results='asis'}
 entries <- if (!is.null(role_data$experience_override)) role_data$experience_override else professional_experience
-for (i in seq_len(nrow(entries))) {
-  e <- entries[i, ]
-  glue::glue("**{e$title}** - {e$unit}, {e$where} (*{e$startMonth} {e$startYear} - {e$endMonth} {e$endYear}*)  
-- {e$detail}\n") |> cat("\n")
+
+# Group by job title, unit, location, and dates
+by_job <- split(entries, paste(entries$title, entries$unit, entries$where, entries$startMonth, entries$startYear, entries$endMonth, entries$endYear))
+
+for (group_key in names(by_job)) {
+  group <- by_job[[group_key]]
+  e <- group[1, ]
+
+  # Title + City line
+  cat(glue::glue(
+    '<div class="exp-title-line">
+      <div class="exp-title">{e$title}</div>
+      <div class="exp-city">{e$where}</div>
+    </div>\n'
+  ))
+
+  # Employer + date line
+  cat(glue::glue(
+    '<div class="exp-meta-line">
+      <div class="exp-org">{e$unit}</div>
+      <div class="exp-dates">{e$startMonth} {e$startYear} - {e$endMonth} {e$endYear}</div>
+    </div>\n'
+  ))
+
+  # Bullet points
+  cat("<ul class='exp-bullets'>\n")
+  for (i in seq_len(nrow(group))) {
+    detail <- group$detail[i]
+    cat(glue::glue("<li>{detail}</li>\n"))
+  }
+  cat("</ul>\n\n")
 }
 ```
 
