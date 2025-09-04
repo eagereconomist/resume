@@ -86,3 +86,32 @@ body > h1:first-of-type {
   margin-bottom: 3pt;
 }
 
+.proj-header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6pt;
+  font-weight: bold;
+}
+
+.proj-title {
+  text-align: left;
+  flex: 1;
+}
+
+.proj-date {
+  text-align: right;
+  white-space: nowrap;
+  font-style: italic;
+  padding-left: 1em;
+}
+
+.proj-bullets {
+  margin-top: 0pt;
+  margin-bottom: 6pt;
+  padding-left: 1.1em;
+}
+
+.proj-bullets li {
+  margin-bottom: 3pt;
+}
+
