@@ -1,20 +1,28 @@
----
-name: Eric
-surname: Miller
-phone: "714-812-0003"
-email: "ericmiller@callutheran.edu"
-linkedin: "https://www.linkedin.com/in/eric-miller-20a162224/"
-aboutme: "Detail-oriented data analyst with a strong background in economics and quantitative analysis. Proficient in Python, R, SQL, with experience in time-series econometrics and forecasting."
-fontsize: 8pt
+--- 
+name: "Eric Miller"
 output:
   pagedown::html_paged:
+    css: compact.css
+    self_contained: true
     toc: false
-    css: ["compact.css"]
+    number_sections: false
+    fig_caption: false
+    includes:
+      in_header: header.html
 params:
   role: "data_analyst"
   show_academic: false
   max_bullets: 3
 ---
+
+<div class="centered-header">
+  <h1>Eric Miller</h1>
+  <p class="contact-info">
+    <a href="mailto:ericmiller@callutheran.edu">email</a>&nbsp;|&nbsp;
+    <a href="tel:+17148120003">+1 (714) 812-0003</a>&nbsp;|&nbsp;
+    <a href="https://www.linkedin.com/in/eric-miller-20a162224/">LinkedIn</a>
+  </p>
+</div>
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
