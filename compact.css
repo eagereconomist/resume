@@ -43,3 +43,46 @@ body > h1:first-of-type {
   margin-top: 0;
 }
 
+.exp-title-line,
+.exp-meta-line {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4pt;
+  margin-bottom: 0pt;
+  font-weight: bold;
+}
+
+.exp-title {
+  text-align: left;
+  flex: 1;
+}
+
+.exp-city {
+  text-align: right;
+  white-space: nowrap;
+  padding-left: 1em;
+}
+
+.exp-org {
+  text-align: left;
+  flex: 1;
+  font-style: normal;
+}
+
+.exp-dates {
+  text-align: right;
+  white-space: nowrap;
+  font-style: italic;
+  padding-left: 1em;
+}
+
+.exp-bullets {
+  margin-top: 0pt;
+  margin-bottom: 6pt;
+  padding-left: 1.1em;
+}
+
+.exp-bullets li {
+  margin-bottom: 3pt;
+}
+
