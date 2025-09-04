@@ -167,34 +167,28 @@ if (exists("education") && is.data.frame(education)) {
   for (i in seq_len(nrow(education))) {
     e <- education[i, ]
 
-    # Degree + dates line
+    degree <- e$degree
+    inst <- e$inst
+    date <- glue::glue("{e$startMonth} {e$startYear} – {e$endMonth} {e$endYear}")
+    detail <- e$detail
+
+    # Degree + date
     cat(glue::glue(
       '<div class="edu-header">
-         <div class="edu-degree">{e$degree}</div>
-         <div class="edu-dates">{e$startMonth} {e$startYear} - {e$endMonth} {e$endYear}</div>
+         <div class="edu-degree">{degree}</div>
+         <div class="edu-dates">{date}</div>
        </div>\n'
     ))
 
     # Institution line
-    cat(glue::glue('<div class="edu-inst">{e$inst}</div>\n'))
+    cat(glue::glue('<div class="edu-inst">{inst}</div>\n'))
 
-    # Optional bullet (minor, thesis, etc.)
-    if (!is.na(e$detail) && nzchar(e$detail)) {
-      cat("<ul class='edu-bullets'>\n")
-      cat(glue::glue("<li>{e$detail}</li>\n"))
-      cat("</ul>\n")
+    # Optional detail (e.g., Minor in Econ)
+    if (!is.na(detail) && nzchar(detail)) {
+      cat(glue::glue("<ul class='edu-bullets'><li>{detail}</li></ul>\n"))
     }
 
     cat("<br>\n")  # spacing between entries
   }
-}
-```
-
-**Education**  
-```{r, results='asis'}
-for (i in seq_len(nrow(education))) {
-  e <- education[i, ]
-  glue::glue("- **{e$degree}**, {e$inst} (*{e$startMonth} {e$startYear} - {e$endMonth} {e$endYear}*)  
-{if (!is.na(e$detail)) paste0('- ', e$detail) else ''}\n") |> cat("\n")
 }
 ```
