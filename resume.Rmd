@@ -45,12 +45,12 @@ cat(glue::glue("**{rmarkdown::metadata$name} {rmarkdown::metadata$surname}**
 "))
 ```
 
-**About Me**  
+## Summary 
 ```{r, results='asis'}
 cat(glue::glue("{rmarkdown::metadata$aboutme}\n\n"))
 ```
 
-**Experience**  
+## Experience  
 ```{r, results='asis'}
 entries <- if (!is.null(role_data$experience_override)) role_data$experience_override else professional_experience
 
@@ -87,7 +87,7 @@ for (group_key in names(by_job)) {
 }
 ```
 
-**Skills**  
+## Skills
 ```{r, results='asis'}
 skills_tbl <- if (!is.null(role_data$skills_tbl)) role_data$skills_tbl else skills
 for (i in seq_len(nrow(skills_tbl))) {
@@ -96,7 +96,7 @@ for (i in seq_len(nrow(skills_tbl))) {
 }
 ```
 
-**Projects**  
+## Projects
 ```{r, results='asis'}
 if (exists("projects") && is.data.frame(projects)) {
   for (i in seq_len(nrow(projects))) {
@@ -124,7 +124,7 @@ if (exists("projects") && is.data.frame(projects)) {
 }
 ```
 
-**Certifications**  
+## Certifications
 ```{r, results='asis'}
 if (exists("certifications") && is.data.frame(certifications)) {
   for (i in seq_len(nrow(certifications))) {
@@ -156,12 +156,12 @@ if (exists("certifications") && is.data.frame(certifications)) {
       cat(glue::glue("<ul class='cert-bullets'><li>{id}</li></ul>\n"))
     }
 
-    cat("<br>\n")
+    cat("<div class='cert-spacer'></div>\n")
   }
 }
 ```
 
-**Education**  
+## Education
 ```{r, results='asis'}
 if (exists("education") && is.data.frame(education)) {
   for (i in seq_len(nrow(education))) {
