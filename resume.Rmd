@@ -89,7 +89,7 @@ for (group_key in sorted_keys) {
   cat(glue::glue(
     '<div class="exp-meta-line">
        <div class="exp-org">{e$unit}</div>
-       <div class="exp-dates">{e$startMonth} {e$startYear} – {e$endMonth} {e$endYear}</div>
+       <div class="exp-dates">{e$startMonth} {e$startYear} - {e$endMonth} {e$endYear}</div>
      </div>\n'
   ))
 
@@ -116,7 +116,6 @@ for (i in seq_len(nrow(skills_tbl))) {
 if (exists("projects") && is.data.frame(projects)) {
   projects$group_id <- paste(projects$area, projects$endMonth, projects$year)
 
-  # Group and prepare metadata for sorting
   by_proj <- split(projects, projects$group_id)
 
   proj_meta <- lapply(by_proj, function(g) {
@@ -137,22 +136,33 @@ if (exists("projects") && is.data.frame(projects)) {
 
     title <- p$area
     when <- glue::glue("{p$endMonth} {p$year}")
+    link <- p$link
+
+    # Format: Project Title [link]   (on left), Date on right
+    title_html <- if (!is.na(link) && nzchar(link)) {
+      glue::glue('{title} <span class="proj-link">[<a href="{link}" target="_blank">link</a>]</span>')
+    } else {
+      title
+    }
 
     cat(glue::glue(
       '<div class="proj-header">
-         <div class="proj-title">{title}</div>
+         <div class="proj-title">{title_html}</div>
          <div class="proj-date">{when}</div>
        </div>\n'
     ))
 
-    cat("<ul class='proj-bullets'>\n")
-    for (i in seq_len(nrow(group))) {
-      detail <- group$detail[i] %||% group$accomplishment[i]
-      if (!is.na(detail) && nzchar(detail)) {
-        cat(glue::glue("<li>{detail}</li>\n"))
+    # Bullets (up to 3)
+    bullets <- unlist(group[1, c("detail_1", "detail_2", "detail_3")])
+    bullets <- bullets[!is.na(bullets) & nzchar(bullets)]
+
+    if (length(bullets) > 0) {
+      cat("<ul class='proj-bullets'>\n")
+      for (b in bullets) {
+        cat(glue::glue("<li>{b}</li>\n"))
       }
+      cat("</ul>\n\n")
     }
-    cat("</ul>\n\n")
   }
 }
 ```
@@ -211,7 +221,7 @@ if (exists("education") && is.data.frame(education)) {
 
     degree <- e$degree
     inst <- e$inst
-    date <- glue::glue("{e$startMonth} {e$startYear} – {e$endMonth} {e$endYear}")
+    date <- glue::glue("{e$startMonth} {e$startYear} - {e$endMonth} {e$endYear}")
     detail <- e$detail
 
     # Degree + date
