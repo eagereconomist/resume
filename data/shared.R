@@ -26,11 +26,21 @@ skills <- tibble::tribble(
 )
 
 projects <- tibble::tribble(
-  ~area, ~accomplishment, ~endMonth, ~year, ~where, ~detail,
-  "Vehicle Sales Forecast Model", NA, "August", 2024, NA, NA,
-  "K-Means Dashboard", NA, "March", 2025, NA, NA,
-  "kmflow", NA, "March", 2025, NA, NA,
-  "imputeflow", NA, "August", 2025, NA, NA
+  ~area, ~link, ~endMonth, ~year, ~detail_1, ~detail_2, ~detail_3,
+  "Vehicle Sales Forecast Model", "link example", "August", 2024,
+  "Forecasted U.S. Light Vehicle Sales using structural + inertial models",
+  "Evaluated models using RMSE-weighted averages and benchmark error bands",
+  NA,
+
+  "kmflow", "https://github.com/eagereconomist/kmflow", "March", 2025,
+  "Built interactive dashboard using PCA + k-means to visualize clusters",
+  "Included cluster summaries, filtering, and KPI integration",
+  "Deployed on Streamlit",
+
+  "imputeflow", "https://github.com/eagereconomist/imputeflow", "March", 2025,
+  "CLI-based modular pipeline for data imputation",
+  NA,
+  NA
 )
 
 certifications <- tibble::tribble(
