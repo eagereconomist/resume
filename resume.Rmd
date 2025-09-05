@@ -50,34 +50,49 @@ cat(glue::glue("**{rmarkdown::metadata$name} {rmarkdown::metadata$surname}**
 cat(glue::glue("{rmarkdown::metadata$aboutme}\n\n"))
 ```
 
-## Experience  
+## Professional Experience  
 ```{r, results='asis'}
 entries <- if (!is.null(role_data$experience_override)) role_data$experience_override else professional_experience
 
-# Group by job title, unit, location, and dates
-by_job <- split(entries, paste(entries$title, entries$unit, entries$where, entries$startMonth, entries$startYear, entries$endMonth, entries$endYear))
+# Create group key for each job
+entries$group_id <- paste(entries$title, entries$unit, entries$where, entries$startMonth, entries$startYear, entries$endMonth, entries$endYear)
 
-for (group_key in names(by_job)) {
+# Group by job using split
+by_job <- split(entries, entries$group_id)
+
+# Create a lookup table for group sorting
+group_meta <- lapply(by_job, function(g) {
+  tibble::tibble(
+    group_id = g$group_id[1],
+    endYear = g$endYear[1],
+    endMonthNum = match(g$endMonth[1], month.name)
+  )
+}) |> dplyr::bind_rows()
+
+# Sort group keys by most recent end date
+sorted_keys <- group_meta |> 
+  dplyr::arrange(dplyr::desc(endYear), dplyr::desc(endMonthNum)) |> 
+  dplyr::pull(group_id)
+
+# Now render in sorted order
+for (group_key in sorted_keys) {
   group <- by_job[[group_key]]
   e <- group[1, ]
 
-  # Title + City line
   cat(glue::glue(
     '<div class="exp-title-line">
-      <div class="exp-title">{e$title}</div>
-      <div class="exp-city">{e$where}</div>
-    </div>\n'
+       <div class="exp-title">{e$title}</div>
+       <div class="exp-city">{e$where}</div>
+     </div>\n'
   ))
 
-  # Employer + date line
   cat(glue::glue(
     '<div class="exp-meta-line">
-      <div class="exp-org">{e$unit}</div>
-      <div class="exp-dates">{e$startMonth} {e$startYear} - {e$endMonth} {e$endYear}</div>
-    </div>\n'
+       <div class="exp-org">{e$unit}</div>
+       <div class="exp-dates">{e$startMonth} {e$startYear} – {e$endMonth} {e$endYear}</div>
+     </div>\n'
   ))
 
-  # Bullet points
   cat("<ul class='exp-bullets'>\n")
   for (i in seq_len(nrow(group))) {
     detail <- group$detail[i]
@@ -96,17 +111,33 @@ for (i in seq_len(nrow(skills_tbl))) {
 }
 ```
 
-## Projects
+## Projects  
 ```{r, results='asis'}
 if (exists("projects") && is.data.frame(projects)) {
-  for (i in seq_len(nrow(projects))) {
-    p <- projects[i, ]
+  projects$group_id <- paste(projects$area, projects$endMonth, projects$year)
 
-    title <- p$title %||% p$area
-    when <- p$when %||% paste(p$endMonth, p$year)
-    detail <- p$detail %||% p$accomplishment
+  # Group and prepare metadata for sorting
+  by_proj <- split(projects, projects$group_id)
 
-    # Header line
+  proj_meta <- lapply(by_proj, function(g) {
+    tibble::tibble(
+      group_id = g$group_id[1],
+      year = g$year[1],
+      endMonthNum = match(g$endMonth[1], month.name)
+    )
+  }) |> dplyr::bind_rows()
+
+  sorted_keys <- proj_meta |>
+    dplyr::arrange(dplyr::desc(year), dplyr::desc(endMonthNum)) |>
+    dplyr::pull(group_id)
+
+  for (group_key in sorted_keys) {
+    group <- by_proj[[group_key]]
+    p <- group[1, ]
+
+    title <- p$area
+    when <- glue::glue("{p$endMonth} {p$year}")
+
     cat(glue::glue(
       '<div class="proj-header">
          <div class="proj-title">{title}</div>
@@ -114,12 +145,14 @@ if (exists("projects") && is.data.frame(projects)) {
        </div>\n'
     ))
 
-    # Bullet
-    if (!is.na(detail) && nzchar(detail)) {
-      cat("<ul class='proj-bullets'>\n")
-      cat(glue::glue("<li>{detail}</li>\n"))
-      cat("</ul>\n\n")
+    cat("<ul class='proj-bullets'>\n")
+    for (i in seq_len(nrow(group))) {
+      detail <- group$detail[i] %||% group$accomplishment[i]
+      if (!is.na(detail) && nzchar(detail)) {
+        cat(glue::glue("<li>{detail}</li>\n"))
+      }
     }
+    cat("</ul>\n\n")
   }
 }
 ```
@@ -127,23 +160,33 @@ if (exists("projects") && is.data.frame(projects)) {
 ## Certifications
 ```{r, results='asis'}
 if (exists("certifications") && is.data.frame(certifications)) {
-  for (i in seq_len(nrow(certifications))) {
-    c <- certifications[i, ]
+  certifications$group_id <- paste(certifications$area, certifications$endMonth, certifications$year)
 
-    title <- c$area %||% "Untitled Certification"
-    org <- c$accomplishment %||% "Unknown Issuer"
-    date <- paste(c$endMonth %||% "", c$year %||% "")
+  by_cert <- split(certifications, certifications$group_id)
+
+  cert_meta <- lapply(by_cert, function(g) {
+    tibble::tibble(
+      group_id = g$group_id[1],
+      year = g$year[1],
+      endMonthNum = match(g$endMonth[1], month.name)
+    )
+  }) |> dplyr::bind_rows()
+
+  sorted_keys <- cert_meta |>
+    dplyr::arrange(dplyr::desc(year), dplyr::desc(endMonthNum)) |>
+    dplyr::pull(group_id)
+
+  for (group_key in sorted_keys) {
+    group <- by_cert[[group_key]]
+    c <- group[1, ]
+
+    title <- c$area
+    org <- c$accomplishment
+    date <- glue::glue("{c$endMonth} {c$year}")
     id <- c$detail
 
-    # Don't double up Credential ID prefix
-    if (!is.na(id) && nzchar(id) && !grepl("^Credential ID", id)) {
-      id <- paste("Credential ID:", id)
-    }
-
-    # Title on its own line
     cat(glue::glue("<div class='cert-title'>{title}</div>\n"))
 
-    # Org + Date (flex aligned)
     cat(glue::glue(
       '<div class="cert-meta-line">
          <div class="cert-org">{org}</div>
@@ -151,7 +194,6 @@ if (exists("certifications") && is.data.frame(certifications)) {
        </div>\n'
     ))
 
-    # Optional credential ID
     if (!is.na(id) && nzchar(id)) {
       cat(glue::glue("<ul class='cert-bullets'><li>{id}</li></ul>\n"))
     }
