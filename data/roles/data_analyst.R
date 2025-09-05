@@ -2,10 +2,11 @@ role_data <- list(
   headline = "Data Analyst",
   skills_tbl = tibble::tribble(
     ~area, ~skills,
-    "Programming", "Python, SQL, R",
-    "Analytics & ML", "EDA, Feature Engineering, A/B Testing, Forecasting",
-    "BI & Viz", "Tableau, ggplot2, Excel",
-    "Data Ops", "Version Control (Git), Reproducibility (renv), CLI Tooling"
+    "Programming", "Python, SQL, R / RStudio, EViews, JMP",
+    "Analytics & ML", "EDA, Feature Engineering, Model Tuning, Forecasting",
+    "Data Visualization", "Excel, Tableau, ggplot2, Matplotlib, Seaborn, Plotly",
+    "Data Ops", "Git, GitHub, Docker, Reproducibility (uv, venv, renv), CLI Tools",
+    "Tools & Markup Languages", "Excel, Word, Powerpoint, RMarkdown"
   ),
   experience_override = NULL,
   projects_override = NULL,
