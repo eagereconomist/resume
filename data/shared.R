@@ -27,7 +27,7 @@ skills <- tibble::tribble(
 
 projects <- tibble::tribble(
   ~area, ~link, ~endMonth, ~year, ~detail_1, ~detail_2, ~detail_3,
-  "Vehicle Sales Forecast Model", "link example", "August", 2024,
+  "A Multi-Equation Forecast Model of the U.S. Vehicle Sales Market", "link example", "August", 2024,
   "Forecasted U.S. Light Vehicle Sales using structural + inertial models",
   "Evaluated models using RMSE-weighted averages and benchmark error bands",
   NA,
