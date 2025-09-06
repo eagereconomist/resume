@@ -23,8 +23,9 @@ params:
   <p class="contact-info">
     <a href="mailto:ericmiller@callutheran.edu">email</a>&nbsp;|&nbsp;
     <a href="tel:+17148120003">+1 (714) 812-0003</a>&nbsp;|&nbsp;
-    <a href="https://www.linkedin.com/in/eric-miller-20a162224/">LinkedIn</a>&nbsp;|&nbsp;
-    <a href="https://github.com/eagereconomist">GitHub</a>
+    <a href="https://eagereconomist.carrd.co/">Portfolio</a>&nbsp;|&nbsp;
+    <a href="https://github.com/eagereconomist">GitHub</a>&nbsp;|&nbsp;
+    <a href="https://www.linkedin.com/in/eric-miller-20a162224/">LinkedIn</a>
   </p>
 </div>
 
@@ -41,7 +42,7 @@ MAX_BULLETS <- params$max_bullets %||% 3
 
 ```{r, results='asis'}
 cat(glue::glue("**{rmarkdown::metadata$name} {rmarkdown::metadata$surname}**  
-{rmarkdown::metadata$phone} | {rmarkdown::metadata$email} | [LinkedIn]({rmarkdown::metadata$linkedin} | {rmarkdown::metadata$github})  
+{rmarkdown::metadata$phone} | {rmarkdown::metadata$email} | {rmarkdown::metadata$linkedin} | {rmarkdown::metadata$portfolio} | {rmarkdown::metadata$github})  
 "))
 ```
 
