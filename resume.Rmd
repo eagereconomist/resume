@@ -140,7 +140,7 @@ if (exists("projects") && is.data.frame(projects)) {
 
     # Format: Project Title [link]   (on left), Date on right
     title_html <- if (!is.na(link) && nzchar(link)) {
-      glue::glue('{title} <span class="proj-link">[<a href="{link}" target="_blank">link</a>]</span>')
+      glue::glue('{title} <span class="proj-link">[<a href="{link}" target="_blank">click here to view project</a>]</span>')
     } else {
       title
     }
