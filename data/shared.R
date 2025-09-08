@@ -27,19 +27,19 @@ skills <- tibble::tribble(
 
 projects <- tibble::tribble(
   ~area, ~link, ~endMonth, ~year, ~detail_1, ~detail_2, ~detail_3,
-  "A Multi-Equation Forecast Model of the U.S. Vehicle Sales Market", "link example", "August", 2024,
-  "Forecasted U.S. Light Vehicle Sales using structural + inertial models",
-  "Evaluated models using RMSE-weighted averages and benchmark error bands",
-  NA,
+  "A Multi-Equation Forecast Model of the U.S. Vehicle Sales Market", "https://www.dropbox.com/scl/fi/t7l3odfc0kgx2n189mzmz/c-7.pdf?rlkey=jr7q50qorns6eutgm1ydt1282&st=59ym65wm&dl=0", "August", 2024,
+  "Managed a multi-frequency dataset by performing frequency conversion to wrangle all time-series variables to a monthly frequency",
+  "Identified post-1984 seasonal reversal in U.S. light vehicle sales trends, as measured by historical increases from November to December in most years, by analyzing monthly sales patterns across a 48-year time series",
+  "Backed the theoretical expectation of VAR optimism by empirically showing its tendency to overshoot vehicle sales forecasts, with higher error magnitudes and volatility compared to ARIMA and structural approaches",
 
   "kmflow", "https://github.com/eagereconomist/kmflow", "March", 2025,
-  "Built interactive dashboard using PCA + k-means to visualize clusters",
-  "Included cluster summaries, filtering, and KPI integration",
-  "Deployed on Streamlit",
-
-  "imputeflow", "https://github.com/eagereconomist/imputeflow", "March", 2025,
-  "CLI-based modular pipeline for data imputation",
+  "Developed a CLI toolset for unsupervised machine learning, used to cluster unlabeled data by applying K-Means and PCA, improving data segmentation workflows",
+  "Increased interpretability of cluster results by building an interactive Streamlit dashboard with silhouette scores, elbow method charts, and cluster profiling",
   NA,
+
+  "imputeflow", "https://github.com/eagereconomist/imputeflow", "August", 2025,
+  "Developed a modular CLI for missing data imputation in R, enabling users to clean tabular data with train/test masking support",
+  "Reduced manual error handling in imputation workflows by supporting train/validate/test splitting with user-defined masks and progress indicators",
   NA
 )
 
