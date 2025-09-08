@@ -5,7 +5,7 @@ role_data <- list(
     "Programming", "Python, SQL, R / RStudio, EViews, JMP",
     "Analytics & ML", "EDA, Feature Engineering, Model Tuning, Forecasting",
     "Data Visualization", "Excel, Tableau, ggplot2, Matplotlib, Seaborn, Plotly",
-    "Data Ops", "Git, GitHub, Docker, Reproducibility (uv, venv, renv), CLI Tools",
+    "Data Ops", "Git, GitHub, Docker, Reproducibility (uv, venv, renv), CLI",
     "Tools & Markup Languages", "Excel, Word, Powerpoint, RMarkdown"
   ),
   experience_override = NULL,
