@@ -1,0 +1,247 @@
+--- 
+name: "Eric Miller"
+aboutme: "Detail-oriented data analyst with a strong background in economics and quantitative analysis.
+         Proficient in Python, R, SQL, EViews, and JMP Pro, with proven expertise in time-series econometrics and forecasting methods. 
+         Adept at identifying strategic opportunities to enhance company margins and maximize profitability through comprehensive, data-driven analysis."
+output:
+  pagedown::html_paged:
+    css: compact.css
+    self_contained: true
+    toc: false
+    number_sections: false
+    fig_caption: false
+    includes:
+      in_header: header.html
+params:
+  role: "data_analyst"
+  show_academic: false
+  max_bullets: 3
+---
+
+<div class="centered-header">
+  <h1>Eric Miller</h1>
+  <p class="contact-info">
+    <a href="mailto:ericmiller@callutheran.edu">email</a>&nbsp;|&nbsp;
+    <a href="tel:+17148120003">+1 (714) 812-0003</a>&nbsp;|&nbsp;
+    <a href="https://eagereconomist.carrd.co/">Portfolio</a>&nbsp;|&nbsp;
+    <a href="https://github.com/eagereconomist">GitHub</a>&nbsp;|&nbsp;
+    <a href="https://www.linkedin.com/in/eric-miller-20a162224/">LinkedIn</a>
+  </p>
+</div>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+`%||%` <- function(x, y) if (!is.null(x)) x else y
+source("data/shared.R", local = TRUE)
+role_file <- file.path("data", "roles", paste0(params$role, ".R"))
+if (!file.exists(role_file)) stop("Missing role file: ", role_file)
+source(role_file, local = TRUE)
+SHOW_ACADEMIC <- isTRUE(params$show_academic)
+MAX_BULLETS <- params$max_bullets %||% 3
+```
+
+```{r, results='asis'}
+cat(glue::glue("**{rmarkdown::metadata$name} {rmarkdown::metadata$surname}**  
+{rmarkdown::metadata$phone} | {rmarkdown::metadata$email} | {rmarkdown::metadata$linkedin} | {rmarkdown::metadata$portfolio} | {rmarkdown::metadata$github})  
+"))
+```
+
+## Summary 
+```{r, results='asis'}
+cat(glue::glue("{rmarkdown::metadata$aboutme}\n\n"))
+```
+
+## Professional Experience  
+```{r, results='asis'}
+entries <- if (!is.null(role_data$experience_override)) role_data$experience_override else professional_experience
+
+# Create group key for each job
+entries$group_id <- paste(entries$title, entries$unit, entries$where, entries$startMonth, entries$startYear, entries$endMonth, entries$endYear)
+
+# Group by job using split
+by_job <- split(entries, entries$group_id)
+
+# Create a lookup table for group sorting
+group_meta <- lapply(by_job, function(g) {
+  tibble::tibble(
+    group_id = g$group_id[1],
+    endYear = g$endYear[1],
+    endMonthNum = match(g$endMonth[1], month.name)
+  )
+}) |> dplyr::bind_rows()
+
+# Sort group keys by most recent end date
+sorted_keys <- group_meta |> 
+  dplyr::arrange(dplyr::desc(endYear), dplyr::desc(endMonthNum)) |> 
+  dplyr::pull(group_id)
+
+# Now render in sorted order
+for (group_key in sorted_keys) {
+  group <- by_job[[group_key]]
+  e <- group[1, ]
+
+  cat(glue::glue(
+    '<div class="exp-title-line">
+       <div class="exp-title">{e$title}</div>
+       <div class="exp-city">{e$where}</div>
+     </div>\n'
+  ))
+
+  cat(glue::glue(
+    '<div class="exp-meta-line">
+       <div class="exp-org">{e$unit}</div>
+       <div class="exp-dates">{e$startMonth} {e$startYear} - {e$endMonth} {e$endYear}</div>
+     </div>\n'
+  ))
+
+  cat("<ul class='exp-bullets'>\n")
+  for (i in seq_len(nrow(group))) {
+    detail <- group$detail[i]
+    cat(glue::glue("<li>{detail}</li>\n"))
+  }
+  cat("</ul>\n\n")
+}
+```
+
+## Skills
+```{r, results='asis'}
+skills_tbl <- if (!is.null(role_data$skills_tbl)) role_data$skills_tbl else skills
+for (i in seq_len(nrow(skills_tbl))) {
+  s <- skills_tbl[i, ]
+  glue::glue("**{s$area}:** {s$skills}\n") |> cat("\n")
+}
+```
+
+## Projects  
+```{r, results='asis'}
+if (exists("projects") && is.data.frame(projects)) {
+  projects$group_id <- paste(projects$area, projects$endMonth, projects$year)
+
+  by_proj <- split(projects, projects$group_id)
+
+  proj_meta <- lapply(by_proj, function(g) {
+    tibble::tibble(
+      group_id = g$group_id[1],
+      year = g$year[1],
+      endMonthNum = match(g$endMonth[1], month.name)
+    )
+  }) |> dplyr::bind_rows()
+
+  sorted_keys <- proj_meta |>
+    dplyr::arrange(dplyr::desc(year), dplyr::desc(endMonthNum)) |>
+    dplyr::pull(group_id)
+
+  for (group_key in sorted_keys) {
+    group <- by_proj[[group_key]]
+    p <- group[1, ]
+
+    title <- p$area
+    when <- glue::glue("{p$endMonth} {p$year}")
+    link <- p$link
+
+    # Format: Project Title [link]   (on left), Date on right
+    title_html <- if (!is.na(link) && nzchar(link)) {
+      glue::glue('{title} <span class="proj-link">[<a href="{link}" target="_blank">click here to view project</a>]</span>')
+    } else {
+      title
+    }
+
+    cat(glue::glue(
+      '<div class="proj-header">
+         <div class="proj-title">{title_html}</div>
+         <div class="proj-date">{when}</div>
+       </div>\n'
+    ))
+
+    # Bullets (up to 3)
+    bullets <- unlist(group[1, c("detail_1", "detail_2", "detail_3")])
+    bullets <- bullets[!is.na(bullets) & nzchar(bullets)]
+
+    if (length(bullets) > 0) {
+      cat("<ul class='proj-bullets'>\n")
+      for (b in bullets) {
+        cat(glue::glue("<li>{b}</li>\n"))
+      }
+      cat("</ul>\n\n")
+    }
+  }
+}
+```
+
+## Certifications
+```{r, results='asis'}
+if (exists("certifications") && is.data.frame(certifications)) {
+  certifications$group_id <- paste(certifications$area, certifications$endMonth, certifications$year)
+
+  by_cert <- split(certifications, certifications$group_id)
+
+  cert_meta <- lapply(by_cert, function(g) {
+    tibble::tibble(
+      group_id = g$group_id[1],
+      year = g$year[1],
+      endMonthNum = match(g$endMonth[1], month.name)
+    )
+  }) |> dplyr::bind_rows()
+
+  sorted_keys <- cert_meta |>
+    dplyr::arrange(dplyr::desc(year), dplyr::desc(endMonthNum)) |>
+    dplyr::pull(group_id)
+
+  for (group_key in sorted_keys) {
+    group <- by_cert[[group_key]]
+    c <- group[1, ]
+
+    title <- c$area
+    org <- c$accomplishment
+    date <- glue::glue("{c$endMonth} {c$year}")
+    id <- c$detail
+
+    cat(glue::glue("<div class='cert-title'>{title}</div>\n"))
+
+    cat(glue::glue(
+      '<div class="cert-meta-line">
+         <div class="cert-org">{org}</div>
+         <div class="cert-date">{date}</div>
+       </div>\n'
+    ))
+
+    if (!is.na(id) && nzchar(id)) {
+      cat(glue::glue("<ul class='cert-bullets'><li>{id}</li></ul>\n"))
+    }
+
+    cat("<div class='cert-spacer'></div>\n")
+  }
+}
+```
+
+## Education
+```{r, results='asis'}
+if (exists("education") && is.data.frame(education)) {
+  for (i in seq_len(nrow(education))) {
+    e <- education[i, ]
+
+    degree <- e$degree
+    inst <- e$inst
+    date <- glue::glue("{e$startMonth} {e$startYear} - {e$endMonth} {e$endYear}")
+    detail <- e$detail
+
+    # Degree + date
+    cat(glue::glue(
+      '<div class="edu-header">
+         <div class="edu-degree">{degree}</div>
+         <div class="edu-dates">{date}</div>
+       </div>\n'
+    ))
+
+    # Institution line
+    cat(glue::glue('<div class="edu-inst">{inst}</div>\n'))
+
+    # Optional detail (e.g., Minor in Econ)
+    if (!is.na(detail) && nzchar(detail)) {
+      cat(glue::glue("<ul class='edu-bullets'><li>{detail}</li></ul>\n"))
+    }
+
+    cat("<br>\n")  # spacing between entries
+  }
+}
+```

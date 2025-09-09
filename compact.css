@@ -1,0 +1,207 @@
+@page {
+  size: A4;
+  margin: 0.4in 0.5in 0.4in 0.5in;
+}
+
+/* ---- LINKS ---- */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+/* ----       ---- */
+
+body {
+  font-family: sans-serif;
+  font-size: 8pt;
+  line-height: 1.15;
+  color: #101;
+}
+
+h2, h3 {
+  font-size: 8pt;
+  font-weight: bold;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 2pt;
+  margin: 6pt 0 4pt;
+}
+
+ul {
+  padding-left: 1em;
+  margin-bottom: 6pt;
+}
+
+p {
+  margin: 0 0 6pt;
+}
+
+/* Top header spacing fix */
+body > h1:first-of-type {
+  margin-top: 0;
+}
+
+body > h1:first-of-type {
+  margin-top: 0;
+}
+
+.exp-title-line,
+.exp-meta-line {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4pt;
+  margin-bottom: 0pt;
+  font-weight: bold;
+}
+
+.exp-title {
+  text-align: left;
+  flex: 1;
+}
+
+.exp-city {
+  text-align: right;
+  white-space: nowrap;
+  padding-left: 1em;
+}
+
+.exp-org {
+  text-align: left;
+  flex: 1;
+  font-style: normal;
+}
+
+.exp-dates {
+  text-align: right;
+  white-space: nowrap;
+  font-style: italic;
+  padding-left: 1em;
+}
+
+.exp-bullets {
+  margin-top: 4pt;
+  margin-bottom: 6pt;
+  padding-left: 1.1em;
+}
+
+.exp-bullets li {
+  margin-bottom: 3pt;
+}
+
+.proj-header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6pt;
+  font-weight: normal;
+}
+
+.proj-title {
+  text-align: left;
+  font-weight: bold;
+  flex: 1;
+}
+
+.proj-date {
+  text-align: right;
+  white-space: nowrap;
+  font-style: italic;
+  padding-left: 1em;
+  font-weight: bold;
+}
+
+.proj-bullets {
+  margin-top: 4pt;
+  margin-bottom: 6pt;
+  padding-left: 1.1em;
+}
+
+.proj-bullets li {
+  margin-bottom: 3pt;
+}
+.proj-link {
+  font-weight: normal;
+  font-size: 8pt;
+  margin-left: 4px;
+}
+
+.proj-link a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.proj-link a:hover {
+  text-decoration: underline;
+}
+
+.edu-header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1pt;
+  margin-bottom: 0pt;
+  font-weight: bold;
+}
+
+.edu-degree {
+  text-align: left;
+  flex: 1;
+}
+
+.edu-dates {
+  text-align: right;
+  white-space: nowrap;
+  font-style: italic;
+  padding-left: 1em;
+  font-weight: bold;
+}
+
+.edu-inst {
+  margin-top: 1pt;
+  margin-bottom: 0pt;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.edu-bullets {
+  margin-top: 4pt;
+  margin-bottom: 2pt;
+  padding-left: 1.1em;
+}
+
+.edu-bullets li {
+  margin-bottom: 1pt;
+}
+
+.cert-title {
+  font-weight: bold;
+  margin-top: 6pt;
+  margin-bottom: 0pt;
+}
+
+.cert-meta-line {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2pt;
+  margin-bottom: 2pt;
+}
+
+.cert-org {
+  text-align: left;
+  flex: 1;
+}
+
+.cert-date {
+  text-align: right;
+  white-space: nowrap;
+  font-style: italic;
+  font-weight: bold;
+  padding-left: 1em;
+}
+
+.cert-bullets {
+  margin-top: 4pt;
+  margin-bottom: 2pt;
+  padding-left: 1.1em;
+}
+
+.cert-bullets li {
+  margin-bottom: 3pt;
+}
