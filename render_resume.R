@@ -31,7 +31,7 @@ build_resume <- function(role = "data_analyst") {
   dir.create("output", showWarnings = FALSE)
   html_file <- render_resume_html(role)
   pdf_file <- render_resume_pdf(html_file, role)
-  message("✓ Built ", pdf_file)
+  message("Built ", pdf_file)
 }
 
 # ---- Run ----
