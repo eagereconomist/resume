@@ -1,8 +1,7 @@
 --- 
 name: "Eric Miller"
-aboutme: "Detail-oriented data analyst with a strong background in economics and quantitative analysis.
-         Proficient in Python, R, SQL, EViews, and JMP Pro, with proven expertise in time-series econometrics and forecasting methods. 
-         Adept at identifying strategic opportunities to enhance company margins and maximize profitability through comprehensive, data-driven analysis."
+aboutme: "Data-focused analyst with training in econometrics and applied experience using statistical modeling, machine learning, and data wrangling techniques to uncover actionable insights. 
+          Proficient in R, Python, and SQL, with a strong foundation in time-series analysis."
 output:
   pagedown::html_paged:
     css: compact.css
@@ -21,23 +20,35 @@ params:
 <div class="centered-header">
   <h1>Eric Miller</h1>
   <p class="contact-info">
-    <a href="mailto:ericmiller@callutheran.edu">email</a>&nbsp;|&nbsp;
+    emmiller.msqe@gmail.com&nbsp;|&nbsp;
     <a href="tel:+17148120003">+1 (714) 812-0003</a>&nbsp;|&nbsp;
-    <a href="https://eagereconomist.carrd.co/">Portfolio</a>&nbsp;|&nbsp;
+    <a href="https://eagereconomist-da.carrd.co/">Portfolio</a>&nbsp;|&nbsp;
     <a href="https://github.com/eagereconomist">GitHub</a>&nbsp;|&nbsp;
     <a href="https://www.linkedin.com/in/eric-miller-20a162224/">LinkedIn</a>
   </p>
 </div>
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 `%||%` <- function(x, y) if (!is.null(x)) x else y
+
+# Base data (shared tables)
 source("data/shared.R", local = TRUE)
-role_file <- file.path("data", "roles", paste0(params$role, ".R"))
+
+# Load role file dynamically into its own environment
+role_dir <- file.path("data", "roles")
+role_file <- file.path(role_dir, paste0(params$role, ".R"))
 if (!file.exists(role_file)) stop("Missing role file: ", role_file)
-source(role_file, local = TRUE)
-SHOW_ACADEMIC <- isTRUE(params$show_academic)
-MAX_BULLETS <- params$max_bullets %||% 3
+
+role_env <- new.env()
+sys.source(role_file, envir = role_env)
+ROLE <- role_env$role
+if (is.null(ROLE) || !is.list(ROLE)) stop("Role file must define `role <- list(...)`")
+
+# Effective switches
+SHOW_ACADEMIC <- isTRUE(params$show_academic %||% ROLE$show_academic)
+MAX_BULLETS <- params$max_bullets %||% ROLE$max_bullets %||% 3
 ```
 
 ```{r, results='asis'}
@@ -53,7 +64,7 @@ cat(glue::glue("{rmarkdown::metadata$aboutme}\n\n"))
 
 ## Professional Experience  
 ```{r, results='asis'}
-entries <- if (!is.null(role_data$experience_override)) role_data$experience_override else professional_experience
+entries <- if (!is.null(ROLE$experience_override)) ROLE$experience_override else professional_experience
 
 # Create group key for each job
 entries$group_id <- paste(entries$title, entries$unit, entries$where, entries$startMonth, entries$startYear, entries$endMonth, entries$endYear)
@@ -71,8 +82,8 @@ group_meta <- lapply(by_job, function(g) {
 }) |> dplyr::bind_rows()
 
 # Sort group keys by most recent end date
-sorted_keys <- group_meta |> 
-  dplyr::arrange(dplyr::desc(endYear), dplyr::desc(endMonthNum)) |> 
+sorted_keys <- group_meta |>
+  dplyr::arrange(dplyr::desc(endYear), dplyr::desc(endMonthNum)) |>
   dplyr::pull(group_id)
 
 # Now render in sorted order
@@ -94,8 +105,10 @@ for (group_key in sorted_keys) {
      </div>\n'
   ))
 
+  # If you want to honor MAX_BULLETS per role, truncate here
+  n_bullets <- min(nrow(group), MAX_BULLETS)
   cat("<ul class='exp-bullets'>\n")
-  for (i in seq_len(nrow(group))) {
+  for (i in seq_len(n_bullets)) {
     detail <- group$detail[i]
     cat(glue::glue("<li>{detail}</li>\n"))
   }
@@ -105,7 +118,7 @@ for (group_key in sorted_keys) {
 
 ## Skills
 ```{r, results='asis'}
-skills_tbl <- if (!is.null(role_data$skills_tbl)) role_data$skills_tbl else skills
+skills_tbl <- if (!is.null(ROLE$skills_tbl)) ROLE$skills_tbl else skills
 for (i in seq_len(nrow(skills_tbl))) {
   s <- skills_tbl[i, ]
   glue::glue("**{s$area}:** {s$skills}\n") |> cat("\n")
@@ -204,14 +217,8 @@ if (exists("certifications") && is.data.frame(certifications)) {
          <div class="cert-date">{date}</div>
        </div>\n'
     ))
-
-    if (!is.na(id) && nzchar(id)) {
-      cat(glue::glue("<ul class='cert-bullets'><li>{id}</li></ul>\n"))
     }
-
-    cat("<div class='cert-spacer'></div>\n")
   }
-}
 ```
 
 ## Education
