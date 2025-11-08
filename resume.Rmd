@@ -1,4 +1,4 @@
---- 
+---
 name: "Eric Miller"
 aboutme: "Data-focused analyst with training in econometrics and applied experience using statistical modeling, machine learning, and data wrangling techniques to uncover actionable insights. 
           Proficient in R, Python, and SQL, with a strong foundation in time-series analysis."
@@ -17,18 +17,6 @@ params:
   max_bullets: 3
 ---
 
-<div class="centered-header">
-  <h1>Eric Miller</h1>
-  <p class="contact-info">
-    emmiller.msqe@gmail.com&nbsp;|&nbsp;
-    <a href="tel:+17148120003">+1 (714) 812-0003</a>&nbsp;|&nbsp;
-    <a href="https://eagereconomist-da.carrd.co/">Portfolio</a>&nbsp;|&nbsp;
-    <a href="https://github.com/eagereconomist">GitHub</a>&nbsp;|&nbsp;
-    <a href="https://www.linkedin.com/in/eric-miller-20a162224/">LinkedIn</a>
-  </p>
-</div>
-
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 `%||%` <- function(x, y) if (!is.null(x)) x else y
@@ -37,7 +25,7 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 source("data/shared.R", local = TRUE)
 
 # Load role file dynamically into its own environment
-role_dir <- file.path("data", "roles")
+role_dir  <- file.path("data", "roles")
 role_file <- file.path(role_dir, paste0(params$role, ".R"))
 if (!file.exists(role_file)) stop("Missing role file: ", role_file)
 
@@ -48,13 +36,28 @@ if (is.null(ROLE) || !is.list(ROLE)) stop("Role file must define `role <- list(.
 
 # Effective switches
 SHOW_ACADEMIC <- isTRUE(params$show_academic %||% ROLE$show_academic)
-MAX_BULLETS <- params$max_bullets %||% ROLE$max_bullets %||% 3
+MAX_BULLETS   <- params$max_bullets %||% ROLE$max_bullets %||% 3
 ```
 
-```{r, results='asis'}
-cat(glue::glue("**{rmarkdown::metadata$name} {rmarkdown::metadata$surname}**  
-{rmarkdown::metadata$phone} | {rmarkdown::metadata$email} | {rmarkdown::metadata$linkedin} | {rmarkdown::metadata$portfolio} | {rmarkdown::metadata$github})  
-"))
+```{r header, echo=FALSE, results='asis'}
+# Build a Markdown contact line with conditional GitHub link
+CONTACT_LINE <- paste0(
+  "emmiller.msqe@gmail.com | ",
+  "[+1 (714) 812-0003](tel:+17148120003) | ",
+  "[Portfolio](https://eagereconomist-da.carrd.co/)",
+  if (isTRUE(ROLE$show_github_header)) " | [GitHub](https://github.com/eagereconomist)" else "",
+  " | [LinkedIn](https://www.linkedin.com/in/eric-miller-20a162224/)"
+)
+
+# Emit a Pandoc fenced div so CSS classes apply cleanly
+out <- paste0(
+  "::: {.centered-header}\n",
+  "# Eric Miller\n",
+  "<p class=\"contact-info\">", CONTACT_LINE, "</p>\n",
+  ":::"
+)
+
+knitr::asis_output(out)
 ```
 
 ## Summary 
