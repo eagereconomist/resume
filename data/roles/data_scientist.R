@@ -1,6 +1,7 @@
 role <- list(
     key = "data_scientist",
     headline = "Data Scientist",
+    summary = "test",
     skills_tbl = tibble::tribble(
       ~area, ~skills,
       "Languages & Libraries", "Python (pandas, NumPy, scikit-learn, PyTorch), R (tidyverse, recipes), SQL)",
