@@ -12,5 +12,6 @@ role <- list(
   experience_override = NULL,
   projects_override = NULL,
   show_academic = FALSE,
+  show_github_header = FALSE,
   max_bullets = 3
 )
