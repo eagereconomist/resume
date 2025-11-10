@@ -40,7 +40,7 @@ MAX_BULLETS   <- params$max_bullets %||% ROLE$max_bullets %||% 3
 
 # Highlight the leading fragment up to the first colon
 highlight_lead <- function(x) {
-  sub("^([^:]+:)", "<span class='lead'>\\1</span>", x, perl = TRUE)
+  sub("^\\s*([^:]+):\\s*", "<span class='lead'>\\1</span> ", x, perl = TRUE)
 }
 ```
 
@@ -115,7 +115,6 @@ for (group_key in sorted_keys) {
      </div>\n'
   ))
 
-  # If you want to honor MAX_BULLETS per role, truncate here
   n_bullets <- min(nrow(group), MAX_BULLETS)
   cat("<ul class='exp-bullets'>\n")
   for (i in seq_len(n_bullets)) {
@@ -174,6 +173,7 @@ if (exists("projects") && is.data.frame(projects)) {
     if (length(bullets) > 0) {
       cat("<ul class='proj-bullets'>\n")
       for (b in bullets) {
+        b <- highlight_lead(b)
         cat(glue::glue("<li>{b}</li>\n"))
       }
       cat("</ul>\n\n")
