@@ -1,7 +1,7 @@
 ---
 name: "Eric Miller"
-aboutme: "Data-focused analyst with training in econometrics and applied experience using statistical modeling, machine learning, and data wrangling techniques to uncover actionable insights. 
-          Proficient in R, Python, and SQL, with a strong foundation in time-series analysis."
+aboutme: "Data analyst who favors clarity over noise, leaning on clean visuals and language tailored to the audience it serves.
+        I build dashboards and practical forecasts shaped by real questions from the people who use them."
 output:
   pagedown::html_paged:
     css: compact.css
