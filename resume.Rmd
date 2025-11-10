@@ -37,6 +37,11 @@ if (is.null(ROLE) || !is.list(ROLE)) stop("Role file must define `role <- list(.
 # Effective switches
 SHOW_ACADEMIC <- isTRUE(params$show_academic %||% ROLE$show_academic)
 MAX_BULLETS   <- params$max_bullets %||% ROLE$max_bullets %||% 3
+
+# Highlight the leading fragment up to the first colon
+highlight_lead <- function(x) {
+  sub("^([^:]+:)", "<span class='lead'>\\1</span>", x, perl = TRUE)
+}
 ```
 
 ```{r header, echo=FALSE, results='asis'}
@@ -68,6 +73,7 @@ knitr::asis_output(paste0(SUMMARY_TEXT, "\n\n"))
 
 ## PROFESSIONAL EXPERIENCE
 ```{r, results='asis'}
+
 entries <- if (!is.null(ROLE$experience_override)) ROLE$experience_override else professional_experience
 
 # Create group key for each job
@@ -113,7 +119,7 @@ for (group_key in sorted_keys) {
   n_bullets <- min(nrow(group), MAX_BULLETS)
   cat("<ul class='exp-bullets'>\n")
   for (i in seq_len(n_bullets)) {
-    detail <- group$detail[i]
+    detail <- highlight_lead(group$detail[i])
     cat(glue::glue("<li>{detail}</li>\n"))
   }
   cat("</ul>\n\n")
@@ -185,6 +191,7 @@ for (i in seq_len(nrow(skills_tbl))) {
   glue::glue("**{s$area}:** {s$skills}\n") |> cat("\n")
 }
 ```
+:::
 
 ## CERTIFICATIONS
 ```{r, results='asis'}
