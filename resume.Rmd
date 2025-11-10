@@ -120,17 +120,7 @@ for (group_key in sorted_keys) {
 }
 ```
 
-## SKILLS
-::: { .skills }
-```{r, results='asis'}
-skills_tbl <- if (!is.null(ROLE$skills_tbl)) ROLE$skills_tbl else skills
-for (i in seq_len(nrow(skills_tbl))) {
-  s <- skills_tbl[i, ]
-  glue::glue("**{s$area}:** {s$skills}\n") |> cat("\n")
-}
-```
-
-## PROJECTS  
+## DATA ANALYST PROJECTS  
 ```{r, results='asis'}
 if (exists("projects") && is.data.frame(projects)) {
   projects$group_id <- paste(projects$area, projects$endMonth, projects$year)
@@ -183,6 +173,16 @@ if (exists("projects") && is.data.frame(projects)) {
       cat("</ul>\n\n")
     }
   }
+}
+```
+
+## SKILLS
+::: { .skills }
+```{r, results='asis'}
+skills_tbl <- if (!is.null(ROLE$skills_tbl)) ROLE$skills_tbl else skills
+for (i in seq_len(nrow(skills_tbl))) {
+  s <- skills_tbl[i, ]
+  glue::glue("**{s$area}:** {s$skills}\n") |> cat("\n")
 }
 ```
 
