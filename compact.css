@@ -93,6 +93,11 @@ body > h1:first-of-type { margin-top: 0; }
 
 .exp-bullets li { margin-bottom: 3pt; }
 
+.exp-bullets .lead { 
+  color: #1F2937;
+  font-weight: bold;
+}
+
 /* =========================
    SKILLS
    ========================= */
