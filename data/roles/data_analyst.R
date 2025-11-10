@@ -4,11 +4,8 @@ role <- list(
   summary = "test",
   skills_tbl = tibble::tribble(
     ~area, ~skills,
-    "Programming", "Python, SQL, R/RStudio, EViews, JMP",
-    "Analytics & ML", "EDA, Feature Engineering, Model Tuning, Forecasting",
-    "Data Visualization", "Tableau, ggplot2, Matplotlib, Seaborn, Plotly",
-    "Data Ops", "Bash, Git, GitHub, Docker, Reproducibility (uv, venv, renv), CLI",
-    "Tools & Markup Languages", "Excel, Word, Powerpoint, RMarkdown"
+    "Technical Capabilities", "Excel, SQL (BigQuery, PostGreSQL), GitHub, Power BI (Power Query, DAX, Data Modeling), Tableau, Python, R, EViews, JMP",
+    "Techniques", "Forecasting, KPI Dashboards"
   ),
   experience_override = NULL,
   projects_override = NULL,
