@@ -260,8 +260,6 @@ if (exists("education") && is.data.frame(education)) {
     if (!is.na(detail) && nzchar(detail)) {
       cat(glue::glue("<ul class='edu-bullets'><li>{detail}</li></ul>\n"))
     }
-
-    cat("<br>\n")  # spacing between entries
   }
 }
 ```
