@@ -3,12 +3,37 @@
   margin: 0.4in 0.5in 0.4in 0.5in;
 }
 
-/* ---- LINKS ---- */
-a {
+/* Base link style (stay gray) */
+a,
+a:link,
+a:visited,
+a:active {
   color: #4A4A4A;
   text-decoration: none;
 }
-/* ----       ---- */
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Header: hover turns links blue */
+.centered-header .contact-info a:hover {
+  color: #0000EE;
+}
+
+/* Projects: "View Project" link is always blue */
+.proj-link a,
+.proj-link a:link,
+.proj-link a:visited,
+.proj-link a:active {
+  color: #0000EE;
+  text-decoration: none;
+}
+
+.proj-link a:hover {
+  color: #0000EE;
+  text-decoration: underline;
+}
 
 body {
   font-family: sans-serif;
