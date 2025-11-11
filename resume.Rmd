@@ -45,16 +45,31 @@ highlight_lead <- function(x) {
 ```
 
 ```{r header, echo=FALSE, results='asis'}
-# Build a Markdown contact line with conditional GitHub link
+# Defaults (used if a role doesn't specify overrides)
+DEFAULT_PORTFOLIO_URL   <- "https://eagereconomist-da.carrd.co/"
+DEFAULT_PORTFOLIO_LABEL <- "Portfolio"
+
+# Pull role-specific values (or fallback)
+PORTFOLIO_URL   <- ROLE$portfolio_url    %||% DEFAULT_PORTFOLIO_URL
+PORTFOLIO_LABEL <- ROLE$portfolio_label  %||% DEFAULT_PORTFOLIO_LABEL
+SHOW_PORTFOLIO  <- if (is.null(ROLE$show_portfolio_header)) TRUE else isTRUE(ROLE$show_portfolio_header)
+
+portfolio_part <- if (SHOW_PORTFOLIO && nzchar(PORTFOLIO_URL)) {
+  paste0(" | [", PORTFOLIO_LABEL, "](", PORTFOLIO_URL, ")")
+} else {
+  ""
+}
+
+github_link <- if (isTRUE(ROLE$show_github_header)) " | [GitHub](https://github.com/eagereconomist)" else ""
+
 CONTACT_LINE <- paste0(
   "emmiller.msqe@gmail.com | ",
-  "[+1 (714) 812-0003](tel:+17148120003) | ",
-  "[Portfolio](https://eagereconomist-da.carrd.co/)",
-  if (isTRUE(ROLE$show_github_header)) " | [GitHub](https://github.com/eagereconomist)" else "",
+  "[+1 (714) 812-0003](tel:+17148120003)",
+  portfolio_part,
+  github_link,
   " | [LinkedIn](https://www.linkedin.com/in/eric-miller-20a162224/)"
 )
 
-# Emit a Pandoc fenced div so CSS classes apply cleanly
 out <- paste0(
   "::: {.centered-header}\n",
   "# Eric Miller\n",
