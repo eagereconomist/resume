@@ -12,14 +12,14 @@ a {
 
 body {
   font-family: sans-serif;
-  font-size: 8pt;
+  font-size: 7.6pt;
   line-height: 1.15;
   color: #4A4A4A;
 }
 
 /* Section headings */
 h2, h3 {
-  font-size: 8pt;
+  font-size: 7.6pt;
   font-weight: bold;
   color: #000000;
   margin: 6pt 0 4pt;
@@ -94,7 +94,7 @@ body > h1:first-of-type { margin-top: 0; }
 .exp-bullets li { margin-bottom: 3pt; }
 
 .exp-bullets .lead { 
-  color: #1F2937;
+  color: #374151;
   font-weight: bold;
 }
 
@@ -140,9 +140,14 @@ body > h1:first-of-type { margin-top: 0; }
 
 .proj-bullets li { margin-bottom: 3pt; }
 
+.proj-bullets .lead {
+  color: #374151;
+  font-weight: bold;
+}
+
 .proj-link {
   font-weight: normal;
-  font-size: 8pt;
+  font-size: 7.6pt;
   margin-left: 4px;
 }
 
