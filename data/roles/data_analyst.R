@@ -19,7 +19,7 @@ role <- list(
   the course professor and the student. Analyzed item-level quiz/exam data over multiple weeks, tracked per-topic mastery, spotted gaps in core econometrics concepts, and targeted practice closed those gaps.",
   
   "Data Analyst Consultant", "California State University Channel Islands", "January", 2023, "May", 2024, "Camarillo, California", "Used Python to create 2 monthly parameterized reports for the tutoring center: after partnering
-  with instructors and administration. Built from SQL session logs and assessment data across all business and economics sections, the reports tracked per-course accuracy, topic mastery, attendance, and tutoring demand. They
+  with instructors and administration. Built from SQL session logs and assessment data across all business and economics sections, the reports tracked per-course accuracy, topic mastery, attendance, and tutoring demand. The reports
   flagged sections trending below expectations and enabled earlier outreach.",
   
   "Embedded Peer Tutor", "California State University Channel Islands", "January", 2022, "December", 2022, "Camarillo, California", "Helped achieve faster faculty interventions and optimized weekly support hours: by analyzing
@@ -38,7 +38,7 @@ role <- list(
   lengths. Out-of-range cuts were flagged, and re-crimps were reduced on the line.",
   
   "Production Assembler", "Rapid Manufacturing", "June", 2020, "October", 2020, "Anaheim, California", "Tracked progress systematically: to maintain accurate records and support production analysis while following detailed work orders to 
-  assemble harnesses and subassemblies"
+  assemble harnesses and subassemblies."
 ),
   projects_override = tibble::tribble(
   ~area, ~link, ~endMonth, ~year, ~detail_1, ~detail_2, ~detail_3,
@@ -51,7 +51,7 @@ role <- list(
   "Developed a 18-month forecast and set a 1.27-1.30 million monthly baseline with ~6% YoY growth rate: through December 2025 using EViews and Excel for inventory planners and sales operations; recommended planning to this
   baseline and recalibrating only after sustained variance.",
   "Confirmed a post-1984 shift in seasonality, with sales increasing from November to December: and spring as the strongest merchandising window on average; recommended spring-focused campaigns with a winter KPI monitored against the pre-1984 baseline.",
-  "Found evidence of a link between growth in both real disposable income and YoY light-vehicle sales: using EViews & Excel; when income jumped ~30% YoY in March 2021, sales spiked ~112% YoY in April 2021. Advised leadership and 
+  "Found evidence of a link between growth in both real disposable income and YoY light vehicle sales: using EViews & Excel; when income jumped ~30% YoY in March 2021, sales spiked ~112% YoY in April 2021. Advised leadership and 
   marketing to monitor income growth alongside sales each month to time promotions and inventory ramps",
 
  "Racquet Segmentation & EDA | Topspin Supply Marketing Initiative", "https://eagereconomist-da.carrd.co/#project-three", "April", 2024,
