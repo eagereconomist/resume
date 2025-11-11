@@ -267,3 +267,15 @@ body > h1:first-of-type { margin-top: 0; }
 /* Subtle spacing between Education entries */
 .edu-header { margin-top: 5pt; }
 .edu-header:first-of-type { margin-top: 0; }
+
+/* Justify all bullet text */
+.exp-bullets li,
+.proj-bullets li,
+.edu-bullets li,
+.cert-bullets li {
+  text-align: justify;
+  -webkit-hyphens: auto;
+      -ms-hyphens: auto;
+          hyphens: auto;
+  overflow-wrap: anywhere; /* keeps long URLs/terms from spilling */
+}
