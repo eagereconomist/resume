@@ -171,7 +171,7 @@ if (is.data.frame(proj_entries) && nrow(proj_entries) > 0) {
     link  <- p$link
 
     title_html <- if (!is.na(link) && nzchar(link)) {
-      glue::glue('{title} <span class="proj-link">[<a href="{link}" target="_blank">click here to view project</a>]</span>')
+      glue::glue('{title} <span class="proj-link">(<a href="{link}" target="_blank">View Project</a>)</span>')
     } else {
       title
     }
