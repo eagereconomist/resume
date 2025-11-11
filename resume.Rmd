@@ -127,15 +127,18 @@ for (group_key in sorted_keys) {
 
 ## DATA ANALYST PROJECTS  
 ```{r, results='asis'}
-if (exists("projects") && is.data.frame(projects)) {
-  projects$group_id <- paste(projects$area, projects$endMonth, projects$year)
+# Use role-specific projects if provided; otherwise fall back to shared projects
+proj_entries <- if (!is.null(ROLE$projects_override)) ROLE$projects_override else projects
 
-  by_proj <- split(projects, projects$group_id)
+if (is.data.frame(proj_entries) && nrow(proj_entries) > 0) {
+  proj_entries$group_id <- paste(proj_entries$area, proj_entries$endMonth, proj_entries$year)
+
+  by_proj <- split(proj_entries, proj_entries$group_id)
 
   proj_meta <- lapply(by_proj, function(g) {
     tibble::tibble(
-      group_id = g$group_id[1],
-      year = g$year[1],
+      group_id    = g$group_id[1],
+      year        = g$year[1],
       endMonthNum = match(g$endMonth[1], month.name)
     )
   }) |> dplyr::bind_rows()
@@ -149,10 +152,9 @@ if (exists("projects") && is.data.frame(projects)) {
     p <- group[1, ]
 
     title <- p$area
-    when <- glue::glue("{p$endMonth} {p$year}")
-    link <- p$link
+    when  <- glue::glue("{p$endMonth} {p$year}")
+    link  <- p$link
 
-    # Format: Project Title [link]   (on left), Date on right
     title_html <- if (!is.na(link) && nzchar(link)) {
       glue::glue('{title} <span class="proj-link">[<a href="{link}" target="_blank">click here to view project</a>]</span>')
     } else {
@@ -166,7 +168,6 @@ if (exists("projects") && is.data.frame(projects)) {
        </div>\n'
     ))
 
-    # Bullets (up to 3)
     bullets <- unlist(group[1, c("detail_1", "detail_2", "detail_3")])
     bullets <- bullets[!is.na(bullets) & nzchar(bullets)]
 
