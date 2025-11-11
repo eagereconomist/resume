@@ -2,7 +2,7 @@ role <- list(
   key = "data_analyst",
   headline = "Data Analyst",
   summary = "Data analyst who favors clarity over noise, leaning on clean visuals and language tailored to the audience it serves.
-        I build dashboards and practical forecasts shaped by real questions from the people who use them.",
+        I wrangle data, create dashboards, and develop practical forecasts shaped by real questions from the people who use them.",
   skills_tbl = tibble::tribble(
     ~area, ~skills,
     "Technical Capabilities", "Excel, SQL (BigQuery, PostGreSQL), GitHub, Power BI (Power Query, DAX), Tableau, Python, R, TypeScript, EViews, JMP",
@@ -50,7 +50,7 @@ role <- list(
   "Light Vehicle Sales Forecasting & Market Analysis | Pinnacle Automotive Analytics Client Engagement", "https://eagereconomist-da.carrd.co/#project-one", "August", 2024,
   "Developed a 18-month forecast and set a 1.27-1.30 million monthly baseline with ~6% YoY growth rate: through December 2025 using EViews and Excel for inventory planners and sales operations; recommended planning to this
   baseline and recalibrating only after sustained variance.",
-  "Uncovered that there was a post-1984 November through December increase in light vehicle sales: and spring as the best season for merchandising on average using Excel; recommended leaning into spring campaigns and tracking a winter seasonality KPI against the pre-1984 pattern.",
+  "Confirmed a post-1984 shift in seasonality, with sales increasing from November to December: and spring as the strongest merchandising window on average; recommended spring-focused campaigns with a winter KPI monitored against the pre-1984 baseline.",
   "Found evidence of a link between growth in both real disposable income and YoY light-vehicle sales: using EViews & Excel; when income jumped ~30% YoY in March 2021, sales spiked ~112% YoY in April 2021. Advised leadership and 
   marketing to monitor income growth alongside sales each month to time promotions and inventory ramps",
 
