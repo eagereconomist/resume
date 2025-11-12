@@ -19,7 +19,7 @@ role <- list(
   the course professor and the student. Analyzed item-level quiz/exam data over multiple weeks, tracked per-topic mastery, spotted gaps in core econometrics concepts, and targeted practice closed those gaps.",
   
   "Data Analyst Consultant", "California State University Channel Islands", "January", 2023, "May", 2024, "Camarillo, California", "Used Python to create 2 monthly parameterized reports for the tutoring center: after partnering
-  with instructors and administration. Built from SQL session logs and assessment data across all business and economics sections, the reports tracked per-course accuracy, topic mastery, attendance, and tutoring demand. The reports
+  with instructors and administration. Built from SQL session logs and assessment data across all business and economics sections, the reports tracked topic mastery, attendance, and tutoring demand. The reports
   flagged sections trending below expectations and enabled earlier outreach.",
   
   "Embedded Peer Tutor", "California State University Channel Islands", "January", 2022, "December", 2022, "Camarillo, California", "Helped achieve faster faculty interventions and optimized weekly support hours: by analyzing
