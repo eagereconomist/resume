@@ -37,14 +37,14 @@ a:hover {
 
 body {
   font-family: sans-serif;
-  font-size: 7.6pt;
+  font-size: 7.4pt;
   line-height: 1.15;
   color: #4A4A4A;
 }
 
 /* Section headings */
 h2, h3 {
-  font-size: 7.6pt;
+  font-size: 7.4pt;
   font-weight: bold;
   color: #000000;
   margin: 6pt 0 4pt;
@@ -127,10 +127,31 @@ body > h1:first-of-type { margin-top: 0; }
    SKILLS
    ========================= */
 
-   .skills strong {
-    font-weight: normal;
-    color: inherit;
-   }
+.skills {
+  /* Pull skills closer to the SKILLS heading */
+  margin-top: -8pt;
+}
+
+.skills p {
+  margin-top: 0;
+  margin-bottom: 2pt;
+}
+
+.skills strong {
+  font-weight: normal;
+  color: inherit;
+}
+
+/* Force each skills category label to start on a new line,
+   without adding extra space before the first one */
+.skills strong::before {
+  content: "\A";
+  white-space: pre;
+}
+
+.skills strong:first-of-type::before {
+  content: "";
+}
 
 /* =========================
    PROJECTS
@@ -172,7 +193,7 @@ body > h1:first-of-type { margin-top: 0; }
 
 .proj-link {
   font-weight: normal;
-  font-size: 7.6pt;
+  font-size: 7.4pt;
   margin-left: 4px;
 }
 
