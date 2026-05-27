@@ -63,7 +63,7 @@ portfolio_part <- if (SHOW_PORTFOLIO && nzchar(PORTFOLIO_URL)) {
 github_link <- if (isTRUE(ROLE$show_github_header)) " | [GitHub](https://github.com/eagereconomist)" else ""
 
 CONTACT_LINE <- paste0(
-  "emmiller.msqe@gmail.com | ",
+  "Eric.Miller2@collins.com | ",
   "[+1 (714) 812-0003](tel:+17148120003)",
   portfolio_part,
   github_link,
@@ -91,8 +91,51 @@ knitr::asis_output(paste0(SUMMARY_TEXT, "\n\n"))
 
 entries <- if (!is.null(ROLE$experience_override)) ROLE$experience_override else professional_experience
 
-# Create group key for each job
-entries$group_id <- paste(entries$title, entries$unit, entries$where, entries$startMonth, entries$startYear, entries$endMonth, entries$endYear)
+# Helper: convert month names to numbers, and treat "Present" as month 12
+month_to_num <- function(x) {
+  dplyr::case_when(
+    is.na(x) ~ NA_integer_,
+    x == "Present" ~ 12L,
+    TRUE ~ match(x, month.name)
+  )
+}
+
+# Helper: build clean display dates
+format_date_range <- function(startMonth, startYear, endMonth, endYear) {
+  start <- glue::glue("{startMonth} {startYear}")
+
+  end <- dplyr::case_when(
+    endMonth == "Present" ~ "Present",
+    is.na(endYear) ~ as.character(endMonth),
+    TRUE ~ as.character(glue::glue("{endMonth} {endYear}"))
+  )
+
+  glue::glue("{start} - {end}")
+}
+
+# Add helper fields for display and sorting
+entries <- entries |>
+  dplyr::mutate(
+    endMonthNum = month_to_num(endMonth),
+
+    # Ongoing roles should sort first
+    sortEndYear = dplyr::case_when(
+      endMonth == "Present" ~ 9999L,
+      is.na(endYear) ~ startYear,
+      TRUE ~ as.integer(endYear)
+    ),
+
+    sortEndMonth = dplyr::case_when(
+      endMonth == "Present" ~ 12L,
+      is.na(endMonthNum) ~ 1L,
+      TRUE ~ endMonthNum
+    ),
+
+    date_display = format_date_range(startMonth, startYear, endMonth, endYear),
+
+    # Do NOT include endYear directly in the group key, because NA can make grouping annoying
+    group_id = paste(title, unit, where, startMonth, startYear, endMonth, date_display)
+  )
 
 # Group by job using split
 by_job <- split(entries, entries$group_id)
@@ -101,14 +144,21 @@ by_job <- split(entries, entries$group_id)
 group_meta <- lapply(by_job, function(g) {
   tibble::tibble(
     group_id = g$group_id[1],
-    endYear = g$endYear[1],
-    endMonthNum = match(g$endMonth[1], month.name)
+    sortEndYear = g$sortEndYear[1],
+    sortEndMonth = g$sortEndMonth[1],
+    startYear = g$startYear[1],
+    startMonthNum = match(g$startMonth[1], month.name)
   )
 }) |> dplyr::bind_rows()
 
-# Sort group keys by most recent end date
+# Sort group keys by most recent end date, with Present first
 sorted_keys <- group_meta |>
-  dplyr::arrange(dplyr::desc(endYear), dplyr::desc(endMonthNum)) |>
+  dplyr::arrange(
+    dplyr::desc(sortEndYear),
+    dplyr::desc(sortEndMonth),
+    dplyr::desc(startYear),
+    dplyr::desc(startMonthNum)
+  ) |>
   dplyr::pull(group_id)
 
 # Now render in sorted order
@@ -126,7 +176,7 @@ for (group_key in sorted_keys) {
   cat(glue::glue(
     '<div class="exp-meta-line">
        <div class="exp-org">{e$unit}</div>
-       <div class="exp-dates">{e$startMonth} {e$startYear} - {e$endMonth} {e$endYear}</div>
+       <div class="exp-dates">{e$date_display}</div>
      </div>\n'
   ))
 
