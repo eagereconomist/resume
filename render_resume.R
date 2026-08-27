@@ -110,7 +110,7 @@ render_resume_pdf <- function(input_html, role) {
 }
 
 # ---- Main Build Function ----
-build_resume <- function(role = "data_scientist") {
+build_resume <- function(role = "data_analyst_engineer") {
   html_file <- render_resume_html(role)
   pdf_file  <- render_resume_pdf(html_file, role)
   message("Built ", pdf_file)
@@ -118,7 +118,7 @@ build_resume <- function(role = "data_scientist") {
 
 # ---- Parse CLI args & run ----
 args <- commandArgs(trailingOnly = TRUE)
-role <- "data_scientist"
+role <- "data_analyst_engineer"
 if (length(args)) {
   for (i in seq_along(args)) {
     if (args[i] %in% c("--role", "-r") && i < length(args)) {
